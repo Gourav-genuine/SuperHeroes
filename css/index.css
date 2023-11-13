@@ -1,0 +1,27 @@
+#main, body {
+  background-color: rgb(125, 125, 125);
+}
+
+#header {
+  background-color: rgb(197, 91, 91);
+}
+
+#homepage_body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  background-color: yellow;
+}
+
+.hero-card {
+  background-color: white;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid black;
+  width: 300px;
+}
+
+.hero-card_thumbnail {
+  width: 100px;
+  height: 100px;
+}
