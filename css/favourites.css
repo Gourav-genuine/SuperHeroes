@@ -1,0 +1,71 @@
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(197, 91, 91);
+  padding: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 25px;
+}
+
+#title {
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+}
+#favourites-list {
+ margin: 10px;
+}
+
+#unfavorite {
+  height: 30px;
+  font-size: 15px;
+  background-color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0px 0px 10px black;
+}
+
+.fav-hero {
+  margin: 25px 0px;
+}
+
+.favourites-list_hero-card {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  border-radius: 25px;
+  box-shadow: 0px 0px 10px rgb(197, 91, 91);
+  margin: 10px;
+  padding: 20px;
+  background-color: white;
+}
+
+#favourites-list_hero-card_image {
+  width: auto;
+  height: 200px;
+}
+
+.favourites-list_hero-card_body {
+  width: 100%;
+}
+
+.favourites-list_hero-card_name-and-fav {
+  display: flex;
+  justify-content: space-between;
+}
+.back-arrow {
+  font-size: 32px;
+  background-color: white;
+  padding: 19px;
+  border-radius: 50%;
+}
+
+/* remove bullets from li */
+ul {
+  list-style-type: none;
+  padding-inline-start: 0;
+}
+

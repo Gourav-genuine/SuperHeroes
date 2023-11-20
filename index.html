@@ -5,31 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/index.css" />
+    <script
+      src="https://kit.fontawesome.com/e473dee23d.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Super Heroes</title>
   </head>
   <body>
     <div id="main">
       <div id="header">
-        <h1>Super Heroes</h1>
+        <h1 id="title">Super Heroes</h1>
         <!-- search bar -->
         <div id="search">
-          <input id="" type="text" placeholder="Search..." />
+          <input id="search-field" type="text" placeholder="Search..." />
         </div>
-      </div>
-      <div id="nav">
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Characters</a></li>
-          <li><a href="#">Movies</a></li>
-          <li><a href="#">TV Shows</a></li>
-        </ul>
+        <!-- add favourites button to go to favourites page -->
+        <a id="favourites" href="./favourites.html">Favourites</a>
       </div>
       <div id="homepage_body"></div>
     </div>
 
     <script src="superHeroes.js"></script>
     <script type="text/javascript">
-      superHeroModule.initialise()
+      // console.log(superHeroModule.a);
+      superHeroModule
+        .initialise()
+        .then((characters) => {
+          // console.log(superHeroModule.getCharacters());
+          let chars = superHeroModule.getCharacters();
+          // console.log(chars);
+          localStorage.setItem("allData", JSON.stringify(chars));
+          // let allData = JSON.parse(localStorage.getItem('allData'));
+          // console.log(allData);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     </script>
   </body>
 </html>

@@ -1,81 +1,108 @@
+
 var superHeroModule = (function superHeroInit() {
   var a = 10;
   let publicKey = "b5271717dc6929f46119ac271a16792a";
-  // Your private key
-  // c5f5521bdc7991680d36f6999052b731af5bcc78
   var characters = [];
-  // 9c086e347a478c1e16ae237216a23c42
-  // console.log(md5("1914c5f5521bdc7991680d36f6999052b731af5bcc78b5271717dc6929f46119ac271a16792a").toString())
+  var favourites = JSON.parse(localStorage.getItem('favourites')) || []; // Load the favoritedHeroes array from the local storage
+  console.log("top favourites", favourites );
   var fetchCharacters = async () => {
     try {
-      await fetch(
+      const response = await fetch(
         `https://gateway.marvel.com/v1/public/characters?ts=1914&apikey=b5271717dc6929f46119ac271a16792a&hash=9c086e347a478c1e16ae237216a23c42`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          // console.log(data.data.results);
-          characters = data.data.results;
-        });
+      );
+      const data = await response.json();
+      return data.data.results;
     } catch (error) {
       console.log(error);
     }
   };
 
-  let heroCardElement = (hero) => {
+  var heroCardElement = (hero) => {
     return `
-    <div class="hero-card">
-      <img class="hero-card_thumbnail" src=${
-        hero.thumbnail.path + "." + hero.thumbnail.extension
-      } alt=${hero.name}>
-      <div class="hero-details">
-        <h3>${hero.name}</h3>
-        <p class="hero-card_description">${hero.description}</p>
+    <a href="./bioPage.html?id=${hero.id}" target="_blank">
+      <div class="hero-card" id=${hero.id}>
+        <div class="hero-card_image-and-favicon">
+          <img class="hero-card_thumbnail" src=${
+            hero.thumbnail.path + "." + hero.thumbnail.extension
+          } alt=${hero.name}>
+          <i class="far fa-heart hero-card_fav"></i>
+        </div>
+        <div class="hero-details">
+          <h3>${hero.name}</h3>
+          <p class="hero-card_description">${hero.description ? hero.description : 'No description available'}</p>
+        </div>
       </div>
-    </div>
+    </a>
   `;
   };
 
-  var hello = () => {
-    console.log('hello')
-  }
+  var setupFavIcons = () => {
+    let favIcons = document.querySelectorAll(".hero-card_fav");
+    favIcons.forEach((icon) => {
+      let heroId = icon.closest('.hero-card').id; // Get the ID of the clicked hero
+      if (favourites.includes(heroId)) {
+        // If the hero is already favorited, change the icon to solid heart
+        icon.className = 'fas fa-heart hero-card_fav'; // Change the icon to solid heart
+      }
+      icon.addEventListener("click", (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        if (favourites.includes(heroId)) {
+          // If the hero is already favorited, remove it from the array and change the icon to outline heart
+          favourites = favourites.filter(id => id !== heroId);
+          icon.className = 'far fa-heart hero-card_fav'; // Change the icon to outline heart
+          icon.style.color = 'black';
+        } else {
+          // If the hero is not favorited, add it to the array and change the icon to solid heart
+          favourites.push(heroId);
+          icon.className = 'fas fa-heart hero-card_fav'; // Change the icon to solid heart
+          icon.style.color = 'red';
+        }
+        localStorage.setItem('favourites', JSON.stringify(favourites)); // Store the favoritedHeroes array in the local storage
+      });
+    });
+  };
+  
 
-  var initialise = () => {
-    try {
-      fetchCharacters().then(async () => {
+  var initialise = async () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        characters = await fetchCharacters();
         for (let hero of characters) {
           let heroCard = heroCardElement(hero);
           document.getElementById("homepage_body").innerHTML += heroCard;
         }
-      });
-    } catch (error) {}
+        // Add the event listener for the hero-card_fav icons here
+        setupFavIcons();
+        resolve(characters);
+      } catch (error) {
+        reject(error);
+      }
+    });
   };
-
   return {
-    hello: hello,
     initialise: initialise,
-    a: a
+    getCharacters: () => characters,
+    heroCardElement: heroCardElement,
+    setupFavIcons: setupFavIcons,
   };
 })();
 
-var searchCharaters = () => {
-  let searchTerm = document.getElementById("searchField").innerText;
-  console.log(searchTerm);
-  let filteredChars = characters.filter((char) => {
-    return char.name.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+//  take input from search bar and filter characters by name
+//  if input matches character name, display character
+//  if input does not match character name, do not display character
+//  if input is empty, display all characters
+
+document.getElementById("search").addEventListener("keyup", (event) => {
+  let searchInput = event.target.value.toLowerCase();
+  let characters = superHeroModule.getCharacters();
+  let filteredCharacters = characters.filter((character) =>
+    character.name.toLowerCase().includes(searchInput)
+  );
   document.getElementById("homepage_body").innerHTML = "";
-  for (let hero of filteredChars) {
-    let heroCard = heroCardElement(hero);
+  for (let hero of filteredCharacters) {
+    let heroCard = superHeroModule.heroCardElement(hero);
     document.getElementById("homepage_body").innerHTML += heroCard;
   }
-};
-
-// Add event listener for search input as user types
-document.getElementById("search").addEventListener("input", () => {
-  searchCharaters();
+  superHeroModule.setupFavIcons();
 });
-// Add submit event listener for search form
-// document.getElementById("search-form").addEventListener("submit", (e) => {
-//   e.preventDefault();
-//   searchCharaters();
-// });
