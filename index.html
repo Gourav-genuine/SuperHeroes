@@ -27,16 +27,11 @@
 
     <script src="superHeroes.js"></script>
     <script type="text/javascript">
-      // console.log(superHeroModule.a);
       superHeroModule
         .initialise()
         .then((characters) => {
-          // console.log(superHeroModule.getCharacters());
           let chars = superHeroModule.getCharacters();
-          // console.log(chars);
           localStorage.setItem("allData", JSON.stringify(chars));
-          // let allData = JSON.parse(localStorage.getItem('allData'));
-          // console.log(allData);
         })
         .catch((error) => {
           console.error(error);

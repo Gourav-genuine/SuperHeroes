@@ -4,7 +4,6 @@ var superHeroModule = (function superHeroInit() {
   let publicKey = "b5271717dc6929f46119ac271a16792a";
   var characters = [];
   var favourites = JSON.parse(localStorage.getItem('favourites')) || []; // Load the favoritedHeroes array from the local storage
-  console.log("top favourites", favourites );
   var fetchCharacters = async () => {
     try {
       const response = await fetch(
@@ -63,7 +62,6 @@ var superHeroModule = (function superHeroInit() {
     });
   };
   
-
   var initialise = async () => {
     return new Promise(async (resolve, reject) => {
       try {

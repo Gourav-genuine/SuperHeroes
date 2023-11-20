@@ -1,5 +1,5 @@
-// log locallly stored data with key 'allData' to console
-console.log(JSON.parse(localStorage.getItem("allData")));
+// Description: This file contains the code for the bio page of the app.
+
 // get query string from url
 const queryString = window.location.search;
 // get id from query string
@@ -9,7 +9,6 @@ const id = urlParams.get("id");
 const characterData = JSON.parse(localStorage.getItem("allData")).find(
   (char) => char.id == id
 );
-console.log(characterData);
 document.getElementById("hero-name").innerText = characterData.name;
 document.getElementById("hero-description").innerText = characterData.description;
 document.getElementById("hero-image").src =

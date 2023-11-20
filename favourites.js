@@ -23,17 +23,13 @@ const favHeroElement = (hero) => {
 };
 
 var initialise = () => {
-  console.log("initialise");
   // get all characters from local storage
   let allCharacters = JSON.parse(localStorage.getItem("allData"));
-  console.log(allCharacters);
   let favourites = JSON.parse(localStorage.getItem("favourites"));
-  console.log(favourites);
   // filter all characters to only include those with ids in favourites array
   let favCharacters = allCharacters.filter((char) =>
     favourites.includes((char.id).toString())
   );
-  console.log(favCharacters);
   for (let hero of favCharacters) {
     let favHero = favHeroElement(hero);
     document.getElementById("favourites-list").innerHTML += favHero;
