@@ -4,18 +4,20 @@ favourites = JSON.parse(localStorage.getItem("favourites"));
 const favHeroElement = (hero) => {
   return `
     <li class="fav-hero">
-      <div class="favourites-list_hero-card" id="${hero.id}">
-        <div>
-          <img id="favourites-list_hero-card_image" src="${hero.thumbnail.path}.${hero.thumbnail.extension}" alt="${hero.name}">
-        </div>
-        <div class="favourites-list_hero-card_body">
-          <div class="favourites-list_hero-card_name-and-fav">
-            <h3 class="hero-card_name">${hero.name}</h3>
-            <button id="unfavorite">Remove from favourites</button>
+      <a href="./bioPage.html?id=${hero.id}" target="_blank">
+        <div class="favourites-list_hero-card" id="${hero.id}">
+          <div>
+            <img id="favourites-list_hero-card_image" src="${hero.thumbnail.path}.${hero.thumbnail.extension}" alt="${hero.name}">
           </div>
-          <p class="favourites-list_hero-card_description">${hero.description}</p>
+          <div class="favourites-list_hero-card_body">
+            <div class="favourites-list_hero-card_name-and-fav">
+              <h3 class="hero-card_name">${hero.name}</h3>
+              <button id="unfavorite">Remove from favourites</button>
+            </div>
+            <p class="favourites-list_hero-card_description">${hero.description}</p>
+          </div>
         </div>
-      </div>
+      </a>
     </li>
   `;
 };
